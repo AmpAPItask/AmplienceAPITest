@@ -100,7 +100,102 @@ public class getToken {
 
     }
 
+
+    //  ----- new scenario
+
+    @Then("user filed should not be null or empty")
+    public void user_filed_should_not_be_null_or_empty() {
+
+        //create object from content class and store response in the class
+        Content content = responseAssets.body().as(Content.class);
+
+        //from content class --> content_1 --> data  and store all info in List of object
+        List<Datum> data = content.getContent().getData();
+
+
+        for (Datum datum : data) {
+
+            //verify that user field is not null and not empty
+            Assert.assertTrue(datum.getUser() != null &&  !(datum.getUser().isEmpty()));
+
+        }
+
+
+
+    }
+
+    @Then("only one of revertible field should be true")
+    public void only_one_of_revertible_field_should_be_true() {
+
+        //create object from content class and store response in the class
+        Content content = responseAssets.body().as(Content.class);
+
+        //from content class --> content_1 --> data  and store all info in List of object
+        List<Datum> data = content.getContent().getData();
+
+        int counter = 0 ;
+
+        for (Datum datum : data) {
+
+            if (datum.getRevertible()) {
+                counter++;
+            }
+
+        }
+        Assert.assertEquals(1,counter);
+
+    }
+
+
+
+    @Then("status field should be active")
+    public void status_field_should_be_active() {
+
+        //create object from content class and store response in the class
+        Content content = responseAssets.body().as(Content.class);
+
+        //from content class --> content_1 --> data  and store all info in List of object
+        List<Datum> data = content.getContent().getData();
+
+        for (Datum datum : data) {
+
+            //verify each revision' status field is active
+            Assert.assertEquals(datum.getStatus(),"active");
+        }
+
+
+    }
+
+
+
+    @Then("revision number field should be different")
+    public void revision_number_field_should_be_different() {
+
+        //create object from content class and store response in the class
+        Content content = responseAssets.body().as(Content.class);
+
+        //from content class --> content_1 --> data  and store all info in List of object
+        List<Datum> data = content.getContent().getData();
+
+        for (int i = 0; i < 1; i++) {
+
+            for (int j = i + 1 ; j < 5; j++) {
+
+                //verify each revision's revision number is different
+                Assert.assertNotEquals(data.get(i).getRevisionNumber() , data.get(j).getRevisionNumber());
+
+            }
+
+        }
+
+
+    }
+
+
+
 }
+
+
 
 
 
